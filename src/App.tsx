@@ -1,0 +1,277 @@
+import React from "react"
+import "./index.css"
+
+const NAV_ITEMS = [
+  "หน้าแรก",
+  "ผลบอลสด",
+  "ดูบอลสด",
+  "ตารางบอล",
+  "ราคาบอล",
+  "ข่าวฟุตบอล",
+  "ติดต่อโฆษณา"
+];
+
+// Sample match data
+const MATCHES = [
+  {
+    time: "02:00",
+    status: "FT",
+    home: "Muangthong Utd",
+    score: "2 - 1",
+    away: "Buriram United",
+    sources: [
+      { label: "dooball66b", url: "https://dooball66b.com/" },
+      { label: "livesod365", url: "https://livesod365.com/" },
+      { label: "goallive24", url: "https://goallive24.com/" },
+    ],
+  },
+  {
+    time: "02:00",
+    status: "FT",
+    home: "Chelsea",
+    score: "0 - 2",
+    away: "Liverpool",
+    sources: [
+      { label: "dooball66b", url: "https://dooball66b.com/" },
+      { label: "Ballstep69", url: "https://www.ballstep69.com/ballsod.php" },
+      { label: "Zianstep", url: "https://zianstep.com/livefootball/" },
+      { label: "suckscore1", url: "https://www.suckscore1.com/linkballs/" },
+      { label: "Dotded", url: "https://www.dotded.com/stream.php" },
+    ],
+  },
+  {
+    time: "05:00",
+    status: "LIVE",
+    home: "ทีม A",
+    score: "-",
+    away: "ทีม B",
+    sources: [
+      { label: "goallive24", url: "https://goallive24.com/" },
+      { label: "Ballstep69", url: "https://www.ballstep69.com/ballsod.php" },
+      { label: "bankeela.com", url: "https://www.bankeela.com/live/" },
+    ],
+  },
+  {
+    time: "06:30",
+    status: "UPCOMING",
+    home: "DOOBALLSOD All Stars",
+    score: "-",
+    away: "Thailand XI",
+    sources: [],
+  },
+];
+
+function MatchModal({ open, onClose, sources, match }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
+      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 relative border-2 border-[#a9373c]">
+        <button
+          aria-label="close"
+          onClick={onClose}
+          className="absolute right-3 top-3 text-[#a9373c] text-lg font-bold"
+        >
+          ×
+        </button>
+        <div
+          className="font-bold text-[#a9373c] text-xl mb-2 text-center"
+          style={{ fontFamily: "Supermarket" }}
+        >
+          ดูบอลสด
+        </div>
+        <div
+          className="text-center text-sm mb-4"
+          style={{ fontFamily: "Supermarket" }}
+        >
+          {match.home}{" "}
+          <span className="font-bold text-[#a9373c]">{match.score}</span>{" "}
+          {match.away}
+        </div>
+        <div className="flex flex-col gap-2">
+          {sources && sources.length ? (
+            sources.map((src, i) => (
+              <a
+                key={i}
+                href={src.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-3 py-2 rounded-lg bg-[#38b590] font-bold text-white text-center hover:bg-[#d29e97] transition"
+              >
+                {src.label} &rarr;
+              </a>
+            ))
+          ) : (
+            <div className="text-[#989c9c] text-center">No external sources yet.</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  // Modal state
+  const [modal, setModal] = React.useState({ idx: null });
+
+  return (
+    <div className="min-h-screen bg-[#f5f4f3]">
+      {/* Header */}
+      <header className="bg-white shadow sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto flex items-center p-2 relative">
+          {/* Use stylized DOOBALLSOD text as logo */}
+          <span
+            className="h-14 mr-4 flex items-center text-3xl font-extrabold tracking-wide text-[#a9373c] select-none"
+            style={{ fontFamily: "Supermarket, Arial, sans-serif", letterSpacing: "2px" }}
+            aria-label="DOOBALLSOD logo"
+          >
+            DOOBALLSOD
+          </span>
+          <nav className="flex-1 flex items-center">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-sm font-bold text-[#28202d] px-3 py-2 rounded hover:bg-[#d29e97] transition-colors"
+                style={{ fontFamily: "Supermarket, Arial, sans-serif" }}
+              >
+                {item}
+              </a>
+            ))}
+          </nav>
+        </div>
+        {/* Thin info bar */}
+        <div className="bg-[#38b590] w-full text-center text-xs font-semibold text-white py-1 tracking-wider">
+          ดูบอลสด ดูบอลออนไลน์วันนี้ทั่วโลกฟรี อัพลิ้งเร็วสุด!
+        </div>
+      </header>
+      {/* Main layout container */}
+      <main className="max-w-6xl mx-auto flex gap-4 py-4 px-2 min-h-[700px]">
+        {/* Left/main area (for table and banners) */}
+        <section className="flex-1 min-w-0">
+          {/* Banners section */}
+          <div className="space-y-3 mb-4">
+            {/* Top row of banners */}
+            <img
+              src="https://ext.same-assets.com/538153867/682225813.gif"
+              alt="Banner 1"
+              className="w-full rounded-md"
+            />
+            <img
+              src="https://ext.same-assets.com/538153867/798384764.gif"
+              alt="Banner 2"
+              className="w-full rounded-md"
+            />
+            <img
+              src="https://ext.same-assets.com/538153867/1992935000.gif"
+              alt="Banner 3"
+              className="w-full rounded-md"
+            />
+            <img
+              src="https://ext.same-assets.com/538153867/797233460.gif"
+              alt="Banner 4"
+              className="w-full rounded-md"
+            />
+          </div>
+          {/* Football fixtures table */}
+          <div className="bg-white rounded-md shadow overflow-x-auto">
+            <table className="min-w-full text-xs md:text-sm table-auto">
+              <thead>
+                <tr className="bg-[#a9373c] text-white">
+                  <th className="py-2 px-1 font-bold">Time</th>
+                  <th className="py-2 px-1 font-bold">Status</th>
+                  <th className="py-2 px-1 font-bold">Home Team</th>
+                  <th className="py-2 px-1 font-bold">Score</th>
+                  <th className="py-2 px-1 font-bold">Away Team</th>
+                  <th className="py-2 px-1 font-bold">Watch</th>
+                </tr>
+              </thead>
+              <tbody className="font-semibold">
+                {MATCHES.map((m, idx) => (
+                  <tr key={idx} className={idx % 2 ? "bg-white" : "bg-[#f5f4f3]"}>
+                    <td className="px-1 py-1 text-center text-[#a9373c] font-bold">{m.time}</td>
+                    <td className="px-1 py-1 text-center">{m.status}</td>
+                    <td className="px-1 py-1 text-right">{m.home}</td>
+                    <td
+                      className="px-1 py-1 text-center text-[#d5ba27] cursor-pointer underline-offset-2 hover:underline"
+                      onClick={() => setModal({ idx })}
+                    >
+                      {m.score}
+                    </td>
+                    <td className="px-1 py-1 text-left">{m.away}</td>
+                    <td className="px-1 py-1 text-center">
+                      {m.sources && m.sources.length ? (
+                        <button
+                          onClick={() => setModal({ idx })}
+                          className="inline-block bg-[#38b590] hover:bg-[#d29e97] text-white px-2 py-1 rounded text-xs font-bold transition"
+                        >
+                          LIVE
+                        </button>
+                      ) : (
+                        <span className="inline-block bg-[#989c9c] text-white px-2 py-1 rounded text-xs font-bold opacity-70 cursor-not-allowed">
+                          SOON
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <MatchModal
+            open={modal.idx !== null}
+            onClose={() => setModal({ idx: null })}
+            sources={modal.idx !== null ? MATCHES[modal.idx].sources : []}
+            match={modal.idx !== null ? MATCHES[modal.idx] : {}}
+          />
+        </section>
+        {/* Sidebar area placeholder */}
+        <aside className="w-[280px] hidden md:block space-y-4">
+          {/* Sidebar ad banner */}
+          <img
+            src="https://ext.same-assets.com/538153867/798384764.gif"
+            alt="Sidebar Banner 1"
+            className="w-full rounded-md"
+          />
+          <img
+            src="https://ext.same-assets.com/538153867/3509309768.gif"
+            alt="Sidebar Banner 2"
+            className="w-full rounded-md"
+          />
+          {/* Stats/Live widget placeholder */}
+          <div className="bg-white rounded-md shadow px-3 py-2 text-xs mt-2">
+            <div className="font-bold text-[#a9373c] mb-1">สถิติ Live Match</div>
+            <ul className="space-y-1">
+              <li>🔴 ลิเวอร์พูล 2-0 แมนยู</li>
+              <li>🟢 เชลซี 1-1 แมนซิตี้</li>
+              <li>🔴 บุรีรัมย์ 2-1 เมืองทอง</li>
+              <li>...</li>
+            </ul>
+          </div>
+          {/* Sidebar small banner */}
+          <img
+            src="https://ext.same-assets.com/538153867/1240591893.gif"
+            alt="Sidebar Banner 3"
+            className="w-full rounded-md"
+          />
+        </aside>
+      </main>
+      {/* Footer section */}
+      <footer className="bg-white border-t border-[#d29e97] mt-6">
+        <div className="max-w-6xl mx-auto px-2 py-6 w-full flex flex-col gap-2 items-center">
+          <img
+            src="https://ext.same-assets.com/538153867/172039459.gif"
+            alt="Footer Banner"
+            className="w-full max-w-2xl mb-2 rounded-md"
+          />
+          <div
+            className="text-xs text-[#989c9c] flex flex-col items-center gap-1"
+            style={{ fontFamily: "Supermarket, Arial, sans-serif" }}
+          >
+            <div className="font-bold text-[#a9373c]">© 2025 DOOBALLSOD.com. All rights reserved.</div>
+            <div>Clone UI for portfolio/demo purposes only. Original © Ballzaa.com.</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
